@@ -188,24 +188,24 @@ router.delete(
  * Look at the User routes above for guidance = 위의 사용자 라우트를 참고
  * =====================================================================
  */
-router.get("/discussions", usersController.index, usersController.indexView); 
-router.get("/discussions/new", usersController.new); 
+router.get("/discussions", discussionsController.index, discussionsController.indexView); 
+router.get("/discussions/new", discussionsController.new); 
 router.post(
   "/discussions/create",
-  usersController.create,
-  usersController.redirectView
+  discussionsController.create,
+  discussionsController.redirectView
 ); 
-router.get("/discussions/:id", usersController.show, usersController.showView);
-router.get("/discussions/:id/edit", usersController.edit); 
+router.get("/discussions/:id", discussionsController.show, discussionsController.showView);
+router.get("/discussions/:id/edit", discussionsController.edit); 
 router.put(
   "/discussions/:id/update",
-  usersController.update,
-  usersController.redirectView
+  discussionsController.update,
+  discussionsController.redirectView
 ); 
 router.delete(
   "/discussions/:id/delete",
-  usersController.delete,
-  usersController.redirectView
+  discussionsController.delete,
+  discussionsController.redirectView
 );
 
 // 1. index 라우트 생성 (모든 레코드 보기) = GET /discussions,                index 액션, index 뷰
