@@ -98,25 +98,19 @@ router.use((req, res, next) => {
  */
 
 // 애플리케이션에 Mongoose 설정
-const mongoose = require("mongoose"), // mongoose를 요청
-  dbName = "ut-nodejs";
+const mongoose = require("mongoose");
 
-// 데이터베이스 연결 설정
-mongoose.connect(`mongodb://127.0.0.1:27017/${dbName}`, {
-  useNewUrlParser: true,
-});
+  mongoose.connect(  
+    "mongodb+srv://ut-node:cJVs2c1wdnhfupa8@ut-node.br8wxbu.mongodb.net/?retryWrites=true&w=majority&appName=UT-Node",
+  );
+  
+  const db = mongoose.connection;
+  db.once("open", () => {
+    console.log("connected to DB!!!");
+  });
 
-// 연결되면 메시지를 보냄
-const db = mongoose.connection;
-db.once("open", () => {
-  console.log(`Connected to ${dbName} MongoDB using Mongoose!`);
-});
+  app.set("port", process.env.PORT || 3000);
 
-/**
- * =====================================================================
- * Define app settings and middleware
- * =====================================================================
- */
 
 app.set("port", process.env.PORT || 3000);
 
@@ -194,6 +188,26 @@ router.delete(
  * Look at the User routes above for guidance = 위의 사용자 라우트를 참고
  * =====================================================================
  */
+router.get("/discussions", usersController.index, usersController.indexView); 
+router.get("/discussions/new", usersController.new); 
+router.post(
+  "/discussions/create",
+  usersController.create,
+  usersController.redirectView
+); 
+router.get("/discussions/:id", usersController.show, usersController.showView);
+router.get("/discussions/:id/edit", usersController.edit); 
+router.put(
+  "/discussions/:id/update",
+  usersController.update,
+  usersController.redirectView
+); 
+router.delete(
+  "/discussions/:id/delete",
+  usersController.delete,
+  usersController.redirectView
+);
+
 // 1. index 라우트 생성 (모든 레코드 보기) = GET /discussions,                index 액션, index 뷰
 // 2. 생성 폼을 보기 위한 요청 처리        = GET /discussions/new,            new 액션
 // 3. 생성 데이터의 처리와 결과            = POST /discussions/create,        create 액션, redirectView 뷰
@@ -201,6 +215,11 @@ router.delete(
 // 5. edit를 처리하기 위한 라우트          = GET /discussions/:id/edit,       edit 액션
 // 6. 편집 데이터의 처리와 결과            = PUT /discussions/:id/update,     update 액션, redirectView 뷰
 // 7. 삭제를 처리하기 위한 라우트          = DELETE /discussions/:id/delete,  delete 액션, redirectView 뷰
+
+
+
+
+
 
 /**
  * Comments
