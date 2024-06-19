@@ -41,12 +41,12 @@ module.exports = {
     };
     Discussion.create(discussionParams)
       .then((discussions) => {
-        res.locals.redirect = "/ discussions";
+        res.locals.redirect = "/discussions";
         res.locals. discussions = discussions;
         next();
       })
       .catch((error) => {
-        console.log(`Error saving  Discussions : ${error.message}`);
+        console.log(`Error saving Discussions : ${error.message}`);
         next(error);
       });
   },
@@ -69,10 +69,27 @@ module.exports = {
    */
   // 4. index: 액션,
   // 5. indexView: 엑션,
-
-
-
-
+  index: (req, res, next) => {
+    Discussion.find()
+      .then((discussions) => {
+        res.locals.discussions = discussions;
+        next();
+      })
+      .catch((error) => {
+        console.log(`Error fetching discussions: ${error.message}`);
+        next(error);
+      });
+  },
+  indexView: (req, res) => {
+    if (req.query.format === "json") {
+      res.json(res.locals.users);
+    } else {
+      res.render("discussions/index", {
+        page: "discussions",
+        title: "All discussions",
+      });
+    }
+  },
 
 
   /**
@@ -82,12 +99,11 @@ module.exports = {
    */
   // 6. show: 액션,
   // 7. showView: 액션,
-
   show: (req, res, next) => {
     let discussionParams = req.params.id;
     Discussion.findById(discussionId)
       .then((discussion) => {
-        res.locals.discussions = discussions; 
+        res.locals.discussion = discussion; 
         next();
       })
       .catch((error) => {
