@@ -30,14 +30,9 @@ module.exports = {
 
   create: (req, res, next) => {
     let discussionParams = {
-      name: {
-        first: req.body.first,
-        last: req.body.last,
-      },
-      email: req.body.email,
-      username: req.body.username,
-      password: req.body.password,
-      profileImg: req.body.profileImg,
+      Title: req.body.email,
+      Description : req.body.username,
+      Tags: req.body.password,
     };
     Discussion.create(discussionParams)
       .then((discussions) => {
@@ -90,7 +85,6 @@ module.exports = {
       });
     }
   },
-
 
   /**
    * ------------------------------------
